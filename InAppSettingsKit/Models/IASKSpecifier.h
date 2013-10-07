@@ -31,6 +31,7 @@
 - (NSString*)localizedObjectForKey:(NSString*)key;
 - (NSString*)title;
 - (NSString*)key;
+- (NSString*)displayKey;
 - (NSString*)type;
 - (NSString*)titleForCurrentValue:(id)currentValue;
 - (NSInteger)multipleValuesCount;

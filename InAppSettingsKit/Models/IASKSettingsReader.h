@@ -21,6 +21,7 @@
 #define kIASKTitle                            @"Title"
 #define kIASKFooterText                       @"FooterText"
 #define kIASKKey                              @"Key"
+#define kIASKDisplayKey                       @"DisplayKey"
 #define kIASKFile                             @"File"
 #define kIASKDefaultValue                     @"DefaultValue"
 #define kIASKMinimumValue                     @"MinimumValue"

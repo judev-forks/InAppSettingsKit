@@ -373,6 +373,10 @@ CGRect IASKCGRectSwap(CGRect rect);
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     IASKSpecifier *specifier  = [self.settingsReader specifierForIndexPath:indexPath];
     NSString *key           = [specifier key];
+	NSString *displayKey = [specifier displayKey];
+	if (displayKey == nil) {
+		displayKey = key;
+	}
     
     if ([[specifier type] isEqualToString:kIASKPSToggleSwitchSpecifier]) {
         IASKPSToggleSwitchSpecifierViewCell *cell = (IASKPSToggleSwitchSpecifierViewCell*)[tableView dequeueReusableCellWithIdentifier:[specifier type]];
@@ -424,7 +428,7 @@ CGRect IASKCGRectSwap(CGRect rect);
         }
 		
 		cell.textLabel.text = [specifier title];
-		id value = [self.settingsStore objectForKey:key] ? : [specifier defaultValue];
+		id value = [self.settingsStore objectForKey:displayKey] ? : [specifier defaultValue];
 		
 		NSString *stringValue;
 		if ([specifier multipleValues] || [specifier multipleTitles]) {
@@ -501,9 +505,19 @@ CGRect IASKCGRectSwap(CGRect rect);
         if (!cell) {
             cell = [[[IASKPSTitleValueSpecifierViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[specifier type]] autorelease];
 			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+			cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
         }
 
         [[cell textLabel] setText:[specifier title]];
+		id value = [self.settingsStore objectForKey:displayKey] ? : [specifier defaultValue];
+		
+		NSString *stringValue;
+		if ([specifier multipleValues] || [specifier multipleTitles]) {
+			stringValue = [specifier titleForCurrentValue:value];
+		} else {
+			stringValue = [value description];
+		}
+		cell.detailTextLabel.text = stringValue;
         return cell;
     } else if ([[specifier type] isEqualToString:kIASKOpenURLSpecifier]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[specifier type]];

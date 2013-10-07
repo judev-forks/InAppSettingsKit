@@ -217,17 +217,22 @@ dataSource=_dataSource;
     //   of universal apps anyway.
     // - This implementation uses the device suffixes on iOS 3.x as well.
 
-    NSArray *bundles =
-        [NSArray arrayWithObjects:kIASKBundleFolderAlt, kIASKBundleFolder, nil];
-
-    NSArray *extensions =
-        [NSArray arrayWithObjects:@".inApp.plist", @".plist", nil];
-
-    NSArray *suffixes =
-        [NSArray arrayWithObjects:[self platformSuffix], @"", nil];
-
-    NSString *path = nil;
     NSFileManager *fileManager = [NSFileManager defaultManager];
+	
+	if ([fileManager fileExistsAtPath:file]) {
+		return file;
+	}
+	
+    NSArray *bundles =
+	[NSArray arrayWithObjects:kIASKBundleFolderAlt, kIASKBundleFolder, nil];
+	
+    NSArray *extensions =
+	[NSArray arrayWithObjects:@".inApp.plist", @".plist", nil];
+	
+    NSArray *suffixes =
+	[NSArray arrayWithObjects:[self platformSuffix], @"", nil];
+	
+    NSString *path = nil;
 	
     for (NSString *bundle in bundles) {
 		for (NSString *extension in extensions) {

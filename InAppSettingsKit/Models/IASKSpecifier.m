@@ -97,6 +97,10 @@
     return [_specifierDict objectForKey:kIASKKey];
 }
 
+- (NSString*)displayKey {
+    return [_specifierDict objectForKey:kIASKDisplayKey];
+}
+
 - (NSString*)type {
     return [_specifierDict objectForKey:kIASKType];
 }
