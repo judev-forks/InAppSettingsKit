@@ -772,10 +772,10 @@ CGRect IASKCGRectSwap(CGRect rect);
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 	self.currentFirstResponder = textField;
 	if ([_tableView indexPathsForVisibleRows].count) {
-		_topmostRowBeforeKeyboardWasShown = (NSIndexPath*)[[_tableView indexPathsForVisibleRows] objectAtIndex:0];
+		_topmostRowBeforeKeyboardWasShown = [(NSIndexPath*)[[_tableView indexPathsForVisibleRows] objectAtIndex:0] retain];
 	} else {
 		// this should never happen
-		_topmostRowBeforeKeyboardWasShown = [NSIndexPath indexPathForRow:0 inSection:0];
+		_topmostRowBeforeKeyboardWasShown = [[NSIndexPath indexPathForRow:0 inSection:0] retain];
 		[textField resignFirstResponder];
 	}
 }
@@ -831,7 +831,8 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 
 - (void) scrollToOldPosition {
-  [_tableView scrollToRowAtIndexPath:_topmostRowBeforeKeyboardWasShown atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [_tableView scrollToRowAtIndexPath:_topmostRowBeforeKeyboardWasShown atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [_topmostRowBeforeKeyboardWasShown release]; _topmostRowBeforeKeyboardWasShown = nil;
 }
 
 - (void)_keyboardWillHide:(NSNotification*)notification {
